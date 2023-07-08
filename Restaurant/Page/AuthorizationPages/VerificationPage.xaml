@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Restaurant.Page.VerificationPage"
+             xmlns:viewmodel = "clr-namespace:Restaurant.ViewModels"
+             x:DataType="viewmodel:VerificationPageViewModel"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{DynamicResource MainBackgroundColor}"
+             >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ImageButton
+                Style="{StaticResource BackNavigation}"
+                Command="{Binding GoBackCommand}">
+        </ImageButton>
+
+        <!--Logo-->
+         <Label Grid.Row="0"
+                Style="{StaticResource Logo}"
+                HeightRequest="400"
+                WidthRequest="300"
+                FontSize="260"
+                Margin="0,20,0,0"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="StartAndExpand"/>
+        <Label
+            Grid.Row="0"
+            Margin="10,0,10,0"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand"
+            TextColor="{DynamicResource BlackText}"
+            FontSize="24"
+            HorizontalTextAlignment="Center"
+            FontFamily="PoppinsExtraLight"
+            Text="Please enter the code you received in the SMS message.">
+        </Label>
+       <Frame
+           VerticalOptions="StartAndExpand"
+           Grid.Row="2"
+           IsVisible="true"
+           WidthRequest="400"
+           Padding="0"
+           CornerRadius="20"
+           HasShadow="False"
+           BorderColor="{Binding BorderColor}"
+           BackgroundColor="Transparent"
+           >
+           <Grid>
+               <Grid.ColumnDefinitions>
+                   <ColumnDefinition Width="3*"></ColumnDefinition>
+                   <ColumnDefinition Width="7*"></ColumnDefinition>
+               </Grid.ColumnDefinitions>
+               <Label Text="+380"
+                      TextColor="{DynamicResource GreenColor}"
+                      Grid.Column="0"
+                      HorizontalTextAlignment="Center"
+                      VerticalTextAlignment="Center"
+                      FontSize="34">
+               </Label>
+                <syncfusion:SfMaskedEntry
+                    IsEnabled="False"
+                    FontSize="38"
+                    Value="{Binding User.Phone}"
+                    HeightRequest="100"
+                    TextColor="{DynamicResource SecondaryTextColor}"
+                    BackgroundColor="Transparent"
+                    Grid.Column="1"
+                    MaskType="Simple"
+                    Mask="(00) 000 00 00"
+                    ValueMaskFormat="IncludePrompt"/>
+           </Grid>
+        </Frame>
+        <Frame
+               Grid.Row="3"
+               VerticalOptions="EndAndExpand"
+               WidthRequest="400"
+               HorizontalOptions="Center"
+               Margin="0,0,0,0"
+               Padding="0"
+               CornerRadius="20"
+               HasShadow="False"
+               BorderColor="{Binding BorderColor}">
+                <syncfusion:SfMaskedEntry
+                    Value="{Binding Uicode}"
+                    MaskType="Simple"
+                    FontSize="38"
+                    Mask="  0     0     0     0     0     0 "
+                    HeightRequest="100"
+                    WidthRequest="400"
+                    TextColor="{DynamicResource SecondaryTextColor}"
+                    BackgroundColor="Transparent"
+                />
+            </Frame>
+        <Label Text="{Binding ExLabelText}"
+               FontSize="20"
+               Grid.Row="4"
+               IsVisible="{Binding ExLabel}"
+               TextColor="{DynamicResource MainRedColor}"
+               VerticalOptions="EndAndExpand"
+               HorizontalTextAlignment="Center"
+               Margin="0,0,0,0">
+        </Label>
+          <Label Text="{Binding Timer}" Grid.Row="4"
+               FontSize="18"
+               TextColor="{DynamicResource BlackText}"
+               IsEnabled="{Binding IsEnableTimer}"
+               FontFamily="PoppinsExtraLight"
+               HeightRequest="24"
+               VerticalOptions="EndAndExpand"
+               HorizontalOptions="CenterAndExpand">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SendCodeAgainCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+            <Button
+                Grid.Row="5"
+                Grid.Column="1"
+                HeightRequest="60"
+                WidthRequest="280"
+                FontSize="24"
+                IsEnabled="True"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="Center"
+                Text="Enter"
+                CornerRadius="20"
+                Command="{Binding SendVerificationCommand}">
+            </Button>
+    </Grid>
+</ContentPage>

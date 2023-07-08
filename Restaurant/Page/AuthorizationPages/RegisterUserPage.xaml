@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Restaurant.Page.RegisterUserPage"
+             xmlns:viewmodel = "clr-namespace:Restaurant.ViewModels"
+             x:DataType="viewmodel:RegisterUserPageViewModel"
+             Shell.NavBarIsVisible="False"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             BackgroundColor="{DynamicResource MainBackgroundColor}"
+             xmlns:sf ="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             Title="">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"></RowDefinition>
+            <RowDefinition Height="35*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+          <ImageButton
+            Grid.Row="0"
+            Margin="10,10"
+            Style="{StaticResource BackNavigation}"
+            Command="{Binding GoBackCommand}"
+            HorizontalOptions="StartAndExpand"/>
+
+        <Grid WidthRequest="300" VerticalOptions="StartAndExpand" Grid.Row="0">
+        <Label 
+               Style="{StaticResource Logo}"
+               FontSize="250"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"
+               ZIndex="1"/>
+        <Frame 
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"
+               BackgroundColor="{DynamicResource MainRedColor}"
+               WidthRequest="290"
+               HeightRequest="90"
+               CornerRadius="25"
+               HasShadow="False"
+               >
+            <Label
+                Text="Register"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="End"
+                FontSize="40"
+                FontFamily="PoppinsBold"
+                TextColor="{DynamicResource WhiteButtonColor}"/>
+        </Frame>
+       </Grid>
+
+       <StackLayout Grid.Row="1" VerticalOptions="EndAndExpand"
+                    HorizontalOptions="CenterAndExpand" Spacing="20">
+            <sf:SfTextInputLayout
+                Hint="Phone"
+                ContainerType="Outlined"
+                WidthRequest="340"
+                HeightRequest="100"
+                OutlineCornerRadius="20"
+                LeadingViewPosition="Inside"
+                ContainerBackground="{DynamicResource WhiteButtonColor}">
+                 <syncfusion:SfMaskedEntry
+                    FontSize="24"
+                    Mask = "+48 00 000 00 00"
+                    HeightRequest="50"
+                    MaskType="Simple"
+                    VerticalOptions="CenterAndExpand"
+                    Keyboard="Telephone"
+                    Value="{Binding User.Phone}"
+                    TextColor="{DynamicResource BlackText}"
+                    ValueMaskFormat="IncludePrompt"/>
+                <sf:SfTextInputLayout.LeadingView>
+                       <Image Source="https://cdn-icons-png.flaticon.com/512/2099/2099140.png"
+                              HeightRequest="20"
+                              HorizontalOptions="CenterAndExpand"
+                              VerticalOptions="CenterAndExpand"
+                              WidthRequest="30"></Image>
+                </sf:SfTextInputLayout.LeadingView>
+            </sf:SfTextInputLayout>
+            <sf:SfTextInputLayout
+                ContainerType="Outlined"
+                WidthRequest="340"
+                HeightRequest="100"
+                HasError="{Binding VisibleExTextName}"
+                Hint="Name"
+                ErrorText="The name cannot be empty"
+                HelperText="You can use Latin letters, numbers, and periods"
+                OutlineCornerRadius="20"
+                LeadingViewPosition="Inside"
+                ContainerBackground="{DynamicResource WhiteButtonColor}">
+                <Entry Text="{Binding User.Name}" FontSize="18"/>
+                <sf:SfTextInputLayout.LeadingView>
+                       <Image Source="https://cdn-icons-png.flaticon.com/512/384/384765.png"
+                              HeightRequest="30"
+                              WidthRequest="20"></Image>
+                </sf:SfTextInputLayout.LeadingView>
+            </sf:SfTextInputLayout>
+             <sf:SfTextInputLayout                
+                InputViewPadding="15,5,0,5" 
+                ContainerType="Outlined"
+                WidthRequest="340"
+                HeightRequest="100"
+                Hint="Password"
+                CharMaxLength="5"
+                HasError="{Binding VisibleExTextPassword}"
+                ErrorText="Password cannot be shorter than 8 characters"
+                EnablePasswordVisibilityToggle="True"
+                OutlineCornerRadius="20"
+                LeadingViewPosition="Inside"
+                ContainerBackground="{DynamicResource WhiteButtonColor}">
+                <Entry Text="{Binding User.Password}"
+                       FontSize="18"/>
+                <sf:SfTextInputLayout.LeadingView>
+                       <Image Source="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+                              HeightRequest="20"
+                              WidthRequest="30"></Image>
+                </sf:SfTextInputLayout.LeadingView>
+            </sf:SfTextInputLayout>
+       </StackLayout>
+        <Button HeightRequest="60"
+                WidthRequest="350"
+                FontSize="24"
+                Grid.Row="2"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                Text="Sign Up"
+                CornerRadius="20"
+                BackgroundColor="{DynamicResource MainRedColor}"
+                TextColor="{DynamicResource WhiteButtonColor}"
+                Command="{Binding RegisterUserCommand}"
+                >
+        </Button>
+        <StackLayout Grid.Row="3" Orientation="Horizontal"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     Spacing="10">
+            <Label Text="Already have on accound ?"
+                   />
+            <Label Text="Login Now" TextDecorations="Underline" TextColor="{DynamicResource LinkColorText}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}">
+                    </TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+    </Grid>
+</ContentPage>

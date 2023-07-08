@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Restaurant.Page.LoginPage"
+             xmlns:viewmodel ="clr-namespace:Restaurant.ViewModels"
+             x:DataType="viewmodel:LoginPageViewModel"
+             xmlns:sf ="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{DynamicResource MainBackgroundColor }">
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" ></RowDefinition>
+            <RowDefinition Height="40*" ></RowDefinition>
+            <RowDefinition Height="10*" ></RowDefinition>
+            <RowDefinition Height="10*" ></RowDefinition>
+        </Grid.RowDefinitions>
+
+       
+        <!--Header-->
+        <Grid Grid.Row="0" VerticalOptions="CenterAndExpand">
+        <Label
+               Margin="0,-10"
+               Style="{StaticResource Logo}"
+               FontSize="290"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"
+               ZIndex="1"/>
+        <Frame
+               Margin="0,-20"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"
+               BackgroundColor="{DynamicResource MainRedColor}"
+               WidthRequest="350"
+               HeightRequest="100"
+               CornerRadius="25"
+               HasShadow="False"
+               >
+            <Label
+                Text="McDonald's"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="End"
+                FontSize="44"
+                FontFamily="PoppinsBold"
+                TextColor="{DynamicResource WhiteButtonColor}"/>
+        </Frame>
+        </Grid>
+           
+        <!--LoginEntry-->
+        <StackLayout VerticalOptions="CenterAndExpand" Grid.Row="1">
+            <sf:SfTextInputLayout
+                VerticalOptions="EndAndExpand"
+                Hint="Phone"
+                x:Name="PhoneEntry"
+                ContainerBackground="{DynamicResource MainBackgroundColor}"
+                InputViewPadding="15,5,0,5" 
+                ContainerType="Outlined"
+                WidthRequest="340"
+                HeightRequest="90"
+                HasError="{Binding ExText}"
+                OutlineCornerRadius="20"
+                LeadingViewPosition="Inside"
+                >
+                <Entry  FontSize="18"
+                        Focused="PhonedEntry_Focused"
+                        TextColor="{DynamicResource BlackText}"
+                        Text="{Binding User.Phone,Mode=TwoWay}"
+                        />
+                <sf:SfTextInputLayout.LeadingView>
+                        <Image Source="https://cdn-icons-png.flaticon.com/512/2099/2099140.png"
+                                HeightRequest="20"
+                                WidthRequest="30"></Image>
+                </sf:SfTextInputLayout.LeadingView>
+            </sf:SfTextInputLayout>
+            <sf:SfTextInputLayout                
+                InputViewPadding="15,5,0,5" 
+                ContainerType="Outlined"
+                WidthRequest="340"
+                HeightRequest="90"
+                x:Name="PasswordEntry"
+                HasError="{Binding ExText}"
+                Hint="Password"
+                EnablePasswordVisibilityToggle="True"
+                OutlineCornerRadius="20"
+                LeadingViewPosition="Inside"
+                ContainerBackground="{DynamicResource MainBackgroundColor}"
+                >
+                <Entry Focused="PasswordEntry_Focused" Text="{Binding User.Password}" TextColor="{DynamicResource BlackText}" FontSize="20"/>
+                <sf:SfTextInputLayout.LeadingView>
+                       <Image Source="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+                              HeightRequest="20"
+                              WidthRequest="30"></Image>
+                </sf:SfTextInputLayout.LeadingView>
+            </sf:SfTextInputLayout>
+             <Label Text="Forget password ?"
+                   TextDecorations="Underline"
+                   Margin="0,0,50,10"
+                   HorizontalOptions="EndAndExpand"
+                   TextColor="{DynamicResource LinkColorText}"
+                   VerticalOptions="Start"
+                   HorizontalTextAlignment="End">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavToResetPasswordCommand}" ></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+
+        <!--ExText-->
+        <Label
+            Grid.Row="1"
+            VerticalOptions="EndAndExpand"
+            LineBreakMode="WordWrap"
+            FontSize="18"
+            Text="Wrong password. Try again or click ‘Forgot password’ to reset it."
+            HorizontalOptions="CenterAndExpand"
+            TextColor="{DynamicResource MainRedColor}"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding ExText}"
+            Margin="50,0,50,0"
+            >
+         </Label>
+
+        <!--Button Log In-->
+        <Button Grid.Row="2"
+                HeightRequest="60"
+                WidthRequest="350"
+                FontSize="24"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                Text="Log In"
+                Margin="0,0,0,10"
+                CornerRadius="20"
+                Command="{Binding PrintAllCommand}"
+                >
+        </Button>
+        <Button Grid.Row="3"
+                HeightRequest="60"
+                WidthRequest="350"
+                FontSize="24"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                Text="Sign Up"
+                Margin="0,0,0,10"
+                CornerRadius="20"
+                Command="{Binding NavToCreaterAccountCommand}"
+                >
+        </Button>
+     </Grid>
+</ContentPage>
