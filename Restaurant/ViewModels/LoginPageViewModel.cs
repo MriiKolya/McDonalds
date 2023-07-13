@@ -10,15 +10,12 @@ namespace Restaurant.ViewModels
         [ObservableProperty]
         UserModel user;
 
-        public LoginPageViewModel()
-        {
-            User = new UserModel();
-        }
+        public LoginPageViewModel() {User = new UserModel();}
         [ObservableProperty]
         bool exText = false;
 
         [RelayCommand]
-        public async void PrintAll()
+        public async Task PrintAll()
         {
             await App.userServices.PrintUsersList();
             var UserCount = await App.userServices.LogIn(User);
@@ -29,38 +26,21 @@ namespace Restaurant.ViewModels
             }
             else
             {
-                ExText = false;
-                var navigationParameter = new Dictionary<string, object>()
-                    {
-                        { "User",UserCount}
-                    };
+                var navigationParameter = new Dictionary<string, object>() { { "User",UserCount } };
                 await AppShell.Current.GoToAsync($"MainPage", navigationParameter);
+                ExText = false;
             }
-            App.userServices.DataReset(User);
         }
         [RelayCommand]
-        public async void NavToCreaterAccount()
+        public async Task NavToCreaterAccount()
         {
             await AppShell.Current.GoToAsync("RegisterUserPage");
-            App.userServices.DataReset(User);
         }
         [RelayCommand]
-        public async void NavToResetPassword()
+        public async Task NavToResetPassword()
         {
             await AppShell.Current.GoToAsync("ResetPasswordPage");
-            App.userServices.DataReset(User);
         }
-        [RelayCommand]
-        public async void ShowUser()
-        {
-            await App.userServices.PrintUsersList();
-        }
-        [RelayCommand]
-        public async void DeletedUser()
-        {
-            await App.userServices.RemoveAllUser();
-        }
-
     }
 }
 

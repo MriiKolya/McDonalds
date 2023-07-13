@@ -4,7 +4,6 @@ using Restaurant.Models;
 
 namespace Restaurant.ViewModels
 {
-    [QueryProperty("User", "User")]
     public partial class ResetPasswordPageViewModel : ObservableObject
     {
         [ObservableProperty]
@@ -16,50 +15,48 @@ namespace Restaurant.ViewModels
         }
 
         [ObservableProperty]
+        bool _ActiveInd = false;
+
+        [ObservableProperty]
         bool _TextEx = false;
 
         [ObservableProperty]
         Color _BorderColor = (Color)App.ColorFromRD["BorderSecondColor"];
 
         [RelayCommand]
-        public async void GoBack()
+        public async Task GoBack()
         {
             await AppShell.Current.GoToAsync("..");
-            App.userServices.DataReset(User);
         }
 
         [RelayCommand]
-        public async void AutUser()
+        public async Task AutUser()
         {
-            await App.userServices.PrintUsersList();
-            var countUser = App.userServices.FindUserByPhone(User.Phone);
-            if(countUser != null)
+            ActiveInd = true;
+            var countUser = await App.userServices.FindUserByPhone(User);
+            if(countUser)
             {
                 try
                 {
                     App.userServices.SendCode(User);
                     TextEx = false;
                     var tempuser = App.userServices.ResetPasswordOrRegister(User, true);
-                    BorderColor = (Color)App.ColorFromRD["BorderSecondColor"];
-                    var navigationParameter = new Dictionary<string, object>()
-                    {
-                        { "User",tempuser}
-                    };
+                    var navigationParameter = new Dictionary<string, object>() { { "User",tempuser } };
                     await AppShell.Current.GoToAsync($"VerificationPage", navigationParameter);
+
                 }
                 catch (Exception ex)
                 {
                     TextEx = true;
                     BorderColor = (Color)App.ColorFromRD["MainRedColor"];
-                    App.userServices.DataReset(User);
                 }
             }
             else
             {
+                BorderColor = (Color)App.ColorFromRD["MainRedColor"];
                 TextEx = true;
-                App.userServices.DataReset(User);
             }
-            
+            ActiveInd = false;
         }
     }
 }

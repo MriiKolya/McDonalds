@@ -33,8 +33,6 @@ namespace Restaurant.ViewModels
         [RelayCommand]
         async Task SendCodeAgain()
         {
-            Console.WriteLine(User.Phone);
-            Console.WriteLine(User.Password);
             App.userServices.SendCode(User);
             TimeSpan time = TimeSpan.FromMinutes(2);
             while (time.TotalSeconds > 0)
@@ -45,11 +43,13 @@ namespace Restaurant.ViewModels
                 IsEnableTimer = false;
             }
             IsEnableTimer = true;
-            Timer = "Send the code again";
+            timer = "Send the code again";
         }
         [RelayCommand]
         async Task SendVerification()
         {
+            //var navigationParameter = new Dictionary<string, object>() { { "User", User } };
+            //await AppShell.Current.GoToAsync($"ChangePasswordPage", navigationParameter);
             try
             {
                 string code = Uicode.Replace(" ", string.Empty);
@@ -60,12 +60,13 @@ namespace Restaurant.ViewModels
                     {
                         await userIsRegistered();
                         await App.userServices.AddUser(User);
-                        await App.userServices.PrintUsersList();   
                     }
                     else
                     {
-                        await AppShell.Current.GoToAsync("ChangePasswordPage");
-                    }   
+                        var navigationParameter = new Dictionary<string, object>() { { "User", User } };
+                        await AppShell.Current.GoToAsync($"ChangePasswordPage", navigationParameter);
+                        ExLabel = false;
+                    }
                 }
                 else
                 {
@@ -84,10 +85,13 @@ namespace Restaurant.ViewModels
         private async Task userIsRegistered()
         {   
             var UserCount = await App.userServices.FindUserByPhone(User);
-            if (UserCount == null)
+            if (UserCount == false)
             {
                 Console.WriteLine("Пользователь нету с таким номером телефона");
                 await AppShell.Current.GoToAsync("//LoginPage");
+                BorderColor = (Color)App.ColorFromRD["BorderSecondColor"];
+                Uicode = "";
+                ExLabel = false;
             }
             else
             {

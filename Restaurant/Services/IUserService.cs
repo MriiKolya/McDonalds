@@ -12,7 +12,7 @@ namespace Restaurant.Services
         Task<int> UpdateUser(UserModel user);
         Task<int> RemoveAllUser();
         Task<UserModel> LogIn(UserModel user);
-        Task<UserModel> FindUserByPhone(UserModel user);
+        Task<bool> FindUserByPhone(UserModel user);
         UserModel ResetPasswordOrRegister(UserModel user,bool ResetPassword);
         void DataReset(UserModel user);
     }

@@ -7,11 +7,9 @@ namespace Restaurant.Models
     public partial class UserModel : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
-        int Id { get; set; }
-
+        public int Id { get; set; }
         [ObservableProperty]
         public string _Name = "";
-
         [ObservableProperty]
         public string _Phone = "";
 

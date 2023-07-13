@@ -6,9 +6,9 @@ namespace Restaurant.DataBase
 {
     public static partial class PhoneVerification
     {
-        private const string accountSid = "AC2f540fa9f22669c5ca2ecc46e7ee7ae6";
-        private const string authToken = "0c30ecb3ccbd73b7eebbb007f58efd8b";
-        private const string ServiceSid = "VA7f8b4b43c28976c0597013c77b9537ee";
+        private const string accountSid = "AC557245bd757bc86beeae7e9220e6e1f8";
+        private const string authToken = "f741ba336553bceb7633265d9b54d796";
+        private const string ServiceSid = "VAdaaa76f0dd6cf08f257ec1438e12a405";
 
         public static void SendCodeDB(string PhoneNumber)
         {

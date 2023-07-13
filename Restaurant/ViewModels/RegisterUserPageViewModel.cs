@@ -13,7 +13,6 @@ namespace Restaurant.ViewModels
         {
             User = new UserModel();
         }
-
         [ObservableProperty]
         bool visibleExTextPhone;
 
@@ -22,16 +21,14 @@ namespace Restaurant.ViewModels
 
         [ObservableProperty]
         bool visibleExTextName;
-
         [RelayCommand]
         async Task GoBack()
         {
             await AppShell.Current.GoToAsync("..");
-            App.userServices.DataReset(User);
         }
 
         [RelayCommand]
-        async void RegisterUser()
+        async Task RegisterUser()
         {
             CheckPasswordAndName();
             if (VisibleExTextName == false && VisibleExTextPassword == false)

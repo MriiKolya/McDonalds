@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Restaurant.Page;
+using Restaurant.Page.AuthorizationPages;
 using Restaurant.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using Syncfusion.Maui.Core.Hosting;
@@ -32,11 +33,11 @@ public static class MauiProgram
 #endif
 
         //Авторизація Смс-код
-        builder.Services.AddSingleton<ResetPasswordPage>();
+        builder.Services.AddTransient<ResetPasswordPage>();
         builder.Services.AddTransient<ResetPasswordPageViewModel>();
 
         //Верификація
-        builder.Services.AddSingleton<VerificationPage>();
+        builder.Services.AddTransient<VerificationPage>();
         builder.Services.AddTransient<VerificationPageViewModel>();
 
         //Авторизація
@@ -44,11 +45,15 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginPageViewModel>();
 
         //Регістрація
-        builder.Services.AddSingleton<RegisterUserPage>();
+        builder.Services.AddTransient<RegisterUserPage>();
         builder.Services.AddTransient<RegisterUserPageViewModel>();
 
+        //Востоновлення пароля
+        builder.Services.AddTransient<ChangePasswordPage>();
+        builder.Services.AddTransient<ChangePasswordPageViewModel>();
+
         //Основна Сторінка
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPageViewModel>();
 
 

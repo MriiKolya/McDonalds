@@ -10,9 +10,22 @@ namespace Restaurant.Services
         private const string DbName = "User.db3";
         private static string dbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
 
+        public async Task DeleteTableAsync()
+        {
+            if (dbConnection != null)
+            {
+                await dbConnection.DropTableAsync<UserModel>();
+            }
+        }
+
+        public void DeleteTable(SQLiteAsyncConnection connection)
+        {
+            connection.ExecuteAsync("DROP TABLE IF EXISTS UserModel");
+        }
         public UserServices()
-        { 
+        {
             SetUpDB();
+            //DeleteTable(dbConnection);
         }
         private async void SetUpDB()
         {
@@ -35,11 +48,12 @@ namespace Restaurant.Services
         public async Task PrintUsersList()
         {
             List<UserModel> userList = await GetUsersList();
-
             foreach (UserModel user in userList)
             {
+                Console.WriteLine($"Id: {user.Id}");
                 Console.WriteLine($"Name: {user.Name}");
                 Console.WriteLine($"Phone: {user.Phone}");
+                Console.WriteLine($"Password: {user.Password}");
                 // Выводите остальные свойства пользователя по необходимости
                 Console.WriteLine("------------------------");
             }
@@ -49,22 +63,30 @@ namespace Restaurant.Services
             Console.WriteLine("Удален user " + user.Phone);
             return dbConnection.DeleteAsync(user);
         }
-
-        public Task<int> UpdateUser(UserModel user)
+        public async Task<int> UpdateUser(UserModel user)
         {
-            return dbConnection.UpdateAsync(user);
-        }
+            var existingAccount = await dbConnection.Table<UserModel>().FirstOrDefaultAsync(a => a.Phone == user.Phone);
 
+            if (existingAccount != null)
+            {
+                existingAccount.Password = user.Password;
+                return await dbConnection.UpdateAsync(existingAccount);
+            }
+
+            return 0; // Возвращаем 0, если пользователь не найден
+        }
         public Task<int> RemoveAllUser()
         {
             Console.WriteLine("Удалены все пользователи");
             return dbConnection.DeleteAllAsync<UserModel>();
         }
-
-        public Task<UserModel> FindUserByPhone(UserModel user)
+        public async Task<bool> FindUserByPhone(UserModel user)
         {
-            return dbConnection.Table<UserModel>().FirstOrDefaultAsync(x => x.Phone == user.Phone);
+            var existingUser = await dbConnection.Table<UserModel>()
+                                        .FirstOrDefaultAsync(x => x.Phone == user.Phone);
+            return existingUser != null;
         }
+
         public void SendCode(UserModel user)
         {
             string phone = "+48" + user.Phone;
@@ -81,11 +103,6 @@ namespace Restaurant.Services
         public Task<UserModel> LogIn(UserModel user)
         {
             return dbConnection.Table<UserModel>().FirstOrDefaultAsync(x => x.Phone == user.Phone && x.Password == user.Password);
-        }
-
-        public Task<UserModel> FindUserByPhone(string PhoneNumber)
-        {
-            return dbConnection.Table<UserModel>().FirstOrDefaultAsync(x => x.Phone == PhoneNumber);
         }
         public UserModel ResetPasswordOrRegister(UserModel user, bool ResetPassword)
         {
